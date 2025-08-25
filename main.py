@@ -56,11 +56,14 @@ class TycoonGUI:
             0, self.canvas_height / 2, self.canvas_width, self.canvas_height / 2,
             width=20, fill="#666666"
         )
+        # Selling pad
         self.canvas.create_rectangle(
             self.canvas_width - 20, self.canvas_height / 2 - 20,
             self.canvas_width, self.canvas_height / 2 + 20,
-            fill="gold", outline="black"
+            fill="green", outline="black"
         )
+        # Dropper
+        self.canvas.create_rectangle(0, 0, 30, 30, fill="purple", outline="black")
 
         # Upgrades Frame
         upgrades_frame = tk.LabelFrame(main_frame, text="Upgrades")
@@ -127,12 +130,21 @@ class TycoonGUI:
 
         for obj in self.game.conveyor_belt.objects:
             x_pos = (obj['position'] / self.game.conveyor_belt.length) * self.canvas_width
-            if x_pos < self.canvas_width:
-                self.canvas.create_oval(
-                    x_pos - object_radius, belt_y - object_radius,
-                    x_pos + object_radius, belt_y + object_radius,
-                    fill="blue", tags="item"
-                )
+            if x_pos >= self.canvas_width:
+                continue
+
+            color = obj.get("color", "blue")
+            shape = obj.get("shape", "oval")
+
+            x1 = x_pos - object_radius
+            y1 = belt_y - object_radius
+            x2 = x_pos + object_radius
+            y2 = belt_y + object_radius
+
+            if shape == "rectangle":
+                self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, tags="item")
+            else:  # Default to oval
+                self.canvas.create_oval(x1, y1, x2, y2, fill=color, tags="item")
 
     def purchase_dropper_upgrade(self):
         if not self.game.upgrades.upgrade_dropper():
