@@ -26,7 +26,11 @@ class Game:
     def update(self):
         """
         Updates the game state.
+
+        Returns:
+            bool: True if a new object was dropped, False otherwise.
         """
+        drop_happened = False
         current_time = time.time()
         dt = current_time - self.last_update_time
         self.last_update_time = current_time
@@ -35,6 +39,7 @@ class Game:
         new_object = self.dropper.update()
         if new_object:
             self.conveyor_belt.add_object(new_object)
+            drop_happened = True
 
         # Update conveyor belt
         self.conveyor_belt.update(dt)
@@ -43,6 +48,8 @@ class Game:
         sold_objects = self.conveyor_belt.get_sold_objects()
         if sold_objects:
             self.money += len(sold_objects) * self.object_price
+
+        return drop_happened
 
     def stop(self):
         """

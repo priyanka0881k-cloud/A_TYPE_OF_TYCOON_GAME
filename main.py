@@ -21,6 +21,7 @@ class TycoonGUI:
         self.root = root
         self.root.title("Tycoon Game")
         self.game = Game()
+        self.dropper_flash_timer = 0
 
         self._init_ui_variables()
         self._create_widgets()
@@ -63,7 +64,7 @@ class TycoonGUI:
             fill="green", outline="black"
         )
         # Dropper
-        self.canvas.create_rectangle(0, 0, 30, 30, fill="purple", outline="black")
+        self.dropper_id = self.canvas.create_rectangle(0, 0, 30, 30, fill="purple", outline="black")
 
         # Upgrades Frame
         upgrades_frame = tk.LabelFrame(main_frame, text="Upgrades")
@@ -101,26 +102,39 @@ class TycoonGUI:
 
     def update_game(self):
         """The main game loop, driven by tkinter's after method."""
-        self.game.update()
+        if self.game.update():
+            self.dropper_flash_timer = 5  # Set flash duration (5 frames)
+
         self.update_gui_elements()
         self.root.after(50, self.update_game)
 
     def update_gui_elements(self):
         """Updates all GUI elements with the latest game state."""
+        # Update text variables
         self.money_var.set(f"${self.game.money:.2f}")
         self.dropper_stats_var.set(f"Interval: {self.game.dropper.drop_interval:.2f}s")
         self.conveyor_stats_var.set(f"Speed: {self.game.conveyor_belt.speed:.2f}")
         self.price_stats_var.set(f"Price: ${self.game.object_price:.2f}")
 
+        # Update button text
         dropper_cost = self.game.upgrades.dropper_upgrade_cost
         conveyor_cost = self.game.upgrades.conveyor_upgrade_cost
         price_cost = self.game.upgrades.price_upgrade_cost
-
         self.dropper_button.config(text=f"Upgrade Dropper (${dropper_cost:.2f})")
         self.conveyor_button.config(text=f"Upgrade Conveyor (${conveyor_cost:.2f})")
         self.price_button.config(text=f"Upgrade Price (${price_cost:.2f})")
 
+        # Update animations and visuals
         self.draw_conveyor_objects()
+        self.update_dropper_animation()
+
+    def update_dropper_animation(self):
+        """Updates the dropper's flash animation."""
+        if self.dropper_flash_timer > 0:
+            self.canvas.itemconfig(self.dropper_id, fill="yellow")
+            self.dropper_flash_timer -= 1
+        else:
+            self.canvas.itemconfig(self.dropper_id, fill="purple")
 
     def draw_conveyor_objects(self):
         """Clears and redraws the objects on the conveyor belt canvas."""
