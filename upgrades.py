@@ -1,5 +1,5 @@
 # upgrades.py
-# Version: 1.0.0
+# Version: 2.0.0
 # Description: This file contains the Upgrades class, which is responsible for managing game upgrades.
 
 class Upgrades:

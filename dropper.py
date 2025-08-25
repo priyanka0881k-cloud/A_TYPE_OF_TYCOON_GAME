@@ -1,5 +1,5 @@
 # dropper.py
-# Version: 1.0.0
+# Version: 2.0.0
 # Description: This file contains the Dropper class, which is responsible for creating objects in the game.
 
 import time

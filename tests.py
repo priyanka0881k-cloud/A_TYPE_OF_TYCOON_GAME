@@ -1,5 +1,5 @@
 # tests.py
-# Version: 1.0.0
+# Version: 2.0.0
 # Description: This file contains test cases for the tycoon game.
 
 import unittest
@@ -111,8 +111,8 @@ def run_tests():
     """
     Runs all the tests and prints a summary.
     """
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestTycoonGame))
+    loader = unittest.TestLoader()
+    suite = loader.loadTestsFromTestCase(TestTycoonGame)
     runner = unittest.TextTestRunner(verbosity=2)
     print("Running tests...")
     result = runner.run(suite)
