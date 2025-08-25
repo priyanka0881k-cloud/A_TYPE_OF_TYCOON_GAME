@@ -64,7 +64,8 @@ class TycoonGUI:
             fill="green", outline="black"
         )
         # Dropper
-        self.dropper_id = self.canvas.create_rectangle(0, 0, 30, 30, fill="purple", outline="black")
+        hopper_points = [0, 0, 30, 0, 25, 30, 5, 30]
+        self.dropper_id = self.canvas.create_polygon(hopper_points, fill="purple", outline="black")
 
         # Upgrades Frame
         upgrades_frame = tk.LabelFrame(main_frame, text="Upgrades")
