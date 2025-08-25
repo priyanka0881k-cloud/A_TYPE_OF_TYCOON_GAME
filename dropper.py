@@ -1,8 +1,9 @@
 # dropper.py
-# Version: 1.0.0
+# Version: 2.0.0
 # Description: This file contains the Dropper class, which is responsible for creating objects in the game.
 
 import time
+import random
 
 class Dropper:
     """
@@ -17,6 +18,8 @@ class Dropper:
         """
         self.drop_interval = drop_interval
         self.last_drop_time = time.time()
+        self.colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"]
+        self.shapes = ["oval", "rectangle"]
 
     def update(self):
         """
@@ -33,10 +36,14 @@ class Dropper:
 
     def drop_object(self):
         """
-        Creates a new game object.
-        For now, an object is represented as a simple dictionary.
+        Creates a new game object with a random color and shape.
         """
-        return {'position': 0, 'creation_time': time.time()}
+        return {
+            'position': 0,
+            'creation_time': time.time(),
+            'color': random.choice(self.colors),
+            'shape': random.choice(self.shapes)
+        }
 
     def upgrade_dropper(self, amount):
         """

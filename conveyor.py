@@ -1,5 +1,5 @@
 # conveyor.py
-# Version: 1.0.0
+# Version: 2.0.0
 # Description: This file contains the ConveyorBelt class, which is responsible for moving objects in the game.
 
 class ConveyorBelt:
